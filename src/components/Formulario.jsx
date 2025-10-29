@@ -9,12 +9,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Pencil, Trash2, Plus, X } from "lucide-react";
+import { BookOpen, Pencil, Trash2, Plus, X, CheckCircle2 } from "lucide-react";
 import { Label } from "@radix-ui/react-menubar";
 import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import ListaDeLivros from "./ListaDeLivros";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const STORAGE_KEY = "biblioteca_livros";
 
@@ -30,6 +41,10 @@ const FormNewBook = () => {
   });
   const [editingBook, setEditingBook] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); // ✅ Controla AlertDialog
+  const [bookToDelete, setBookToDelete] = useState(null); // ✅ Armazena ID do livro a deleta
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -52,24 +67,28 @@ const FormNewBook = () => {
     let updatedBooks;
 
     if (editingBook) {
-      setBooks(
-        (updatedBooks = books.map((book) =>
-          book.id === editingBook.id
-            ? { ...formData, id: editingBook.id }
-            : book
-        ))
+      updatedBooks = books.map((book) =>
+        book.id === editingBook.id ? { ...formData, id: editingBook.id } : book
       );
+      setAlertMessage("Livro editado com sucesso!");
     } else {
       const newBook = {
         ...formData,
         id: Date.now(),
       };
       updatedBooks = [...books, newBook];
+      setAlertMessage("Livro cadastrado com sucesso!");
     }
+
     setBooks(updatedBooks);
     saveToLocalStorage(updatedBooks);
     resetForm();
     setIsDialogOpen(false);
+
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
   };
 
   const handleEdit = (book) => {
@@ -81,15 +100,34 @@ const FormNewBook = () => {
       isbn: book.isbn,
       description: book.description,
     });
-    setIsDialogOpen(true); // ✅ Abre o dialog
+    setIsDialogOpen(true);
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Tem certeza que deseja deletar este livro?")) {
-      const updatedBooks = books.filter((book) => book.id !== id);
+    setBookToDelete(id);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (bookToDelete) {
+      const updatedBooks = books.filter((book) => book.id !== bookToDelete);
       setBooks(updatedBooks);
       saveToLocalStorage(updatedBooks);
+
+      setAlertMessage("Livro excluído com sucesso!");
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
     }
+
+    setIsDeleteDialogOpen(false);
+    setBookToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteDialogOpen(false);
+    setBookToDelete(null);
   };
 
   const resetForm = () => {
@@ -120,6 +158,41 @@ const FormNewBook = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6 md:p-8">
+      {showAlert && (
+        <Alert className="mb-6 border-green-500 bg-green-50">
+          <CheckCircle2 className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-700">
+            {alertMessage}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir este livro? Esta ação não pode ser
+              desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={cancelDelete}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
         <div className="mb-6 flex justify-end">
           <DialogTrigger asChild>
