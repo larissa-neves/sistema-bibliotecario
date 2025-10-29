@@ -14,9 +14,20 @@ import { Label } from "@radix-ui/react-menubar";
 import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Textarea } from "@/components/ui/textarea";
+import ListaDeLivros from "./ListaDeLivros";
+
+const STORAGE_KEY = "biblioteca_livros";
 
 const FormNewBook = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(() => {
+    try {
+      const savedBooks = localStorage.getItem(STORAGE_KEY);
+      return savedBooks ? JSON.parse(savedBooks) : [];
+    } catch (error) {
+      console.error("Erro ao carregar livros do localStorage:", error);
+      return [];
+    }
+  });
   const [editingBook, setEditingBook] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -26,13 +37,25 @@ const FormNewBook = () => {
     description: "",
   });
 
+  const saveToLocalStorage = (updatedBooks) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedBooks));
+    } catch (error) {
+      console.error("Erro ao salvar livros no localStorage:", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    let updatedBooks;
 
     if (editingBook) {
       setBooks(
         books.map((book) =>
-          book.id === editingBook.id ? { ...formData, id: editingBook.id } : book
+          book.id === editingBook.id
+            ? { ...formData, id: editingBook.id }
+            : book
         )
       );
     } else {
@@ -40,12 +63,31 @@ const FormNewBook = () => {
         ...formData,
         id: Date.now(),
       };
-      setBooks([...books, newBook]); 
-      console.log(books)
+      updatedBooks = [...books, newBook]
+      setBooks(updatedBooks);
+      saveToLocalStorage(updatedBooks);
     }
 
     resetForm();
   };
+
+  const handleEdit = (book) => {
+    setEditingBook(book);
+    setFormData({
+      title: book.title,
+      author: book.author,
+      year: book.year,
+      isbn: book.isbn,
+      description: book.description,
+    });
+    setIsFormOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Tem certeza que deseja deletar este livro?")) {
+      setBooks(books.filter((book) => book.id !== id))
+    }
+  }
 
   const resetForm = () => {
     setFormData({
@@ -60,9 +102,9 @@ const FormNewBook = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -148,13 +190,23 @@ const FormNewBook = () => {
 
             <DialogFooter className="mt-4">
               <DialogClose asChild>
-                <Button type="button" variant="outline">Cancelar</Button>
+                <Button type="button" variant="outline">
+                  Cancelar
+                </Button>
               </DialogClose>
               <Button type="submit">Cadastrar Livro</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
+
+      <div className="space-y-4">
+        <ListaDeLivros
+          books={books}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 };
