@@ -15,9 +15,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BookOpen, Pencil, Trash2, Plus, X } from "lucide-react";
+import { BookOpen, Pencil, Trash2, Plus, X, SquarePen } from "lucide-react";
+import { Button } from "./ui/button";
 
-const ListaDeLivros = ({ books = [], onEdit, onDelete }) => {
+const ListaDeLivros = ({ id, books = [], onEdit, onDelete }) => {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -61,6 +62,24 @@ const ListaDeLivros = ({ books = [], onEdit, onDelete }) => {
                 <TableCell>{book.year}</TableCell>
                 <TableCell>{book.isbn}</TableCell>
                 <TableCell>{book.description}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onEdit(book)}
+                    title="Editar livro"
+                  >
+                    <SquarePen className="w-4 h-4 text-blue-600" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onDelete(book.id)}
+                    title="Deletar livro"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-600" />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

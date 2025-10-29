@@ -29,6 +29,7 @@ const FormNewBook = () => {
     }
   });
   const [editingBook, setEditingBook] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -52,23 +53,23 @@ const FormNewBook = () => {
 
     if (editingBook) {
       setBooks(
-        books.map((book) =>
+        (updatedBooks = books.map((book) =>
           book.id === editingBook.id
             ? { ...formData, id: editingBook.id }
             : book
-        )
+        ))
       );
     } else {
       const newBook = {
         ...formData,
         id: Date.now(),
       };
-      updatedBooks = [...books, newBook]
-      setBooks(updatedBooks);
-      saveToLocalStorage(updatedBooks);
+      updatedBooks = [...books, newBook];
     }
-
+    setBooks(updatedBooks);
+    saveToLocalStorage(updatedBooks);
     resetForm();
+    setIsDialogOpen(false);
   };
 
   const handleEdit = (book) => {
@@ -80,14 +81,16 @@ const FormNewBook = () => {
       isbn: book.isbn,
       description: book.description,
     });
-    setIsFormOpen(true);
+    setIsDialogOpen(true); // ✅ Abre o dialog
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Tem certeza que deseja deletar este livro?")) {
-      setBooks(books.filter((book) => book.id !== id))
+      const updatedBooks = books.filter((book) => book.id !== id);
+      setBooks(updatedBooks);
+      saveToLocalStorage(updatedBooks);
     }
-  }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -108,9 +111,16 @@ const FormNewBook = () => {
     }));
   };
 
+  const handleDialogChange = (open) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      resetForm();
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-6 md:p-8">
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
         <div className="mb-6 flex justify-end">
           <DialogTrigger asChild>
             <Button variant="outline">
@@ -202,6 +212,7 @@ const FormNewBook = () => {
 
       <div className="space-y-4">
         <ListaDeLivros
+          id={books.id}
           books={books}
           onEdit={handleEdit}
           onDelete={handleDelete}
