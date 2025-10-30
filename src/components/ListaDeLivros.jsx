@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BookOpen, Pencil, Trash2, Plus, X, SquarePen } from "lucide-react";
+import { BookOpen, Pencil, Trash, Plus, X, SquarePen } from "lucide-react";
 import { Button } from "./ui/button";
 
 const ListaDeLivros = ({ id, books = [], onEdit, onDelete }) => {
@@ -77,7 +77,7 @@ const ListaDeLivros = ({ id, books = [], onEdit, onDelete }) => {
                     onClick={() => onDelete(book.id)}
                     title="Deletar livro"
                   >
-                    <Trash2 className="w-4 h-4 text-red-600" />
+                    <Trash className="w-4 h-4 text-red-600" />
                   </Button>
                 </TableCell>
               </TableRow>

@@ -9,13 +9,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Pencil, Trash2, Plus, X, CheckCircle2 } from "lucide-react";
+import { Plus, CheckCircle2 } from "lucide-react";
 import { Label } from "@radix-ui/react-menubar";
 import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import ListaDeLivros from "./ListaDeLivros";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,8 +43,8 @@ const FormNewBook = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); // ✅ Controla AlertDialog
-  const [bookToDelete, setBookToDelete] = useState(null); // ✅ Armazena ID do livro a deleta
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); 
+  const [bookToDelete, setBookToDelete] = useState(null); 
   const [formData, setFormData] = useState({
     title: "",
     author: "",

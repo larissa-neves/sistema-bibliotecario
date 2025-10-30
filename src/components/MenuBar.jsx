@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/menubar";
 import { BookOpen, Library, FileText, Settings } from "lucide-react";
 
+
 const Acervo = () => {
   return (
     <>
-      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition">
+      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition-colors">
         <Link
           to="/acervo"
           className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -30,7 +31,7 @@ const Acervo = () => {
 const Relatorios = () => {
   return (
     <>
-      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition ">
+      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition-colors">
         <Link
           to="/bibliotecas"
           className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -46,7 +47,7 @@ const Relatorios = () => {
 const Configuracoes = () => {
   return (
     <>
-      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition ">
+      <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition-colors">
         <Link
           to="/configuracoes"
           className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
