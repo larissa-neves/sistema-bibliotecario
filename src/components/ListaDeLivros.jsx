@@ -39,47 +39,55 @@ const ListaDeLivros = ({ books = [], onEdit, onDelete }) => {
           </CardContent>
         </Card>
       ) : (
-        <Table className="border border-double rounded-md">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Título</TableHead>
-              <TableHead>Autor</TableHead>
-              <TableHead>Ano</TableHead>
-              <TableHead>ISBN</TableHead>
-              <TableHead>Descrição</TableHead>
-              <TableHead>Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {books.map((book) => (
-              <TableRow key={book.id}>
-                <TableCell>{book.title}</TableCell>
-                <TableCell>{book.author}</TableCell>
-                <TableCell>{book.year}</TableCell>
-                <TableCell>{book.isbn}</TableCell>
-                <TableCell>{book.description}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onEdit(book)}
-                    title="Editar livro"
-                  >
-                    <SquarePen className="w-4 h-4 text-blue-600" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onDelete(book.id)}
-                    title="Deletar livro"
-                  >
-                    <Trash className="w-4 h-4 text-red-600" />
-                  </Button>
-                </TableCell>
+        <div className="overflow-x-auto">
+          <Table className="border border-double rounded-md">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="min-w-[150px]">Título</TableHead>
+                <TableHead className="min-w-[120px]">Autor</TableHead>
+                <TableHead className="w-[80px]">Ano</TableHead>
+                <TableHead className="w-[140px]">ISBN</TableHead>
+                <TableHead className="min-w-[300px] max-w-[500px]">Descrição</TableHead>
+                <TableHead className="w-[100px]">Ações</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {books.map((book) => (
+                <TableRow key={book.id}>
+                  <TableCell className="font-medium align-top">{book.title}</TableCell>
+                  <TableCell className="align-top">{book.author}</TableCell>
+                  <TableCell className="align-top">{book.year}</TableCell>
+                  <TableCell className="font-mono text-sm align-top">{book.isbn}</TableCell>
+                  <TableCell className="max-w-[500px] align-top">
+                    <div className="whitespace-normal break-words text-sm leading-relaxed">
+                      {book.description}
+                    </div>
+                  </TableCell>
+                  <TableCell className="align-top">
+                    <div className="flex gap-1">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => onEdit(book)}
+                        title="Editar livro"
+                      >
+                        <SquarePen className="w-4 h-4 text-blue-600" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => onDelete(book.id)}
+                        title="Deletar livro"
+                      >
+                        <Trash className="w-4 h-4 text-red-600" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );
