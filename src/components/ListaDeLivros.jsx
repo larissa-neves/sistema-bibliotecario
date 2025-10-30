@@ -2,7 +2,6 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,14 +10,11 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { BookOpen, Pencil, Trash, Plus, X, SquarePen } from "lucide-react";
+import { BookOpen, Trash, SquarePen } from "lucide-react";
 import { Button } from "./ui/button";
 
-const ListaDeLivros = ({ id, books = [], onEdit, onDelete }) => {
+const ListaDeLivros = ({ books = [], onEdit, onDelete }) => {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">

@@ -1,5 +1,4 @@
-import React, { use } from 'react'
-import { useState } from 'react'
+import React from 'react'
 import PaginaInicial  from './pages/InitialPage'
 import PaginaBibliotecas from './pages/BibliotecasPage'
 import PaginaConfig from './pages/ConfigPage'
