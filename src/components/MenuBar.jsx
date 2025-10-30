@@ -2,11 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   Menubar,
-  MenubarContent,
-  MenubarItem,
   MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { BookOpen, Library, FileText, Settings } from "lucide-react";
