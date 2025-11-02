@@ -277,7 +277,9 @@ const FormNewBook = () => {
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button type="submit">Cadastrar Livro</Button>
+              <Button type="submit">
+                {editingBook ? "Salvar Alterações" : "Cadastrar Livro"}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

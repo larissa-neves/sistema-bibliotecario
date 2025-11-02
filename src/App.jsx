@@ -1,9 +1,9 @@
 import React from 'react'
 import PaginaInicial  from './pages/InitialPage'
 import PaginaBibliotecas from './pages/BibliotecasPage'
-import PaginaConfig from './pages/ConfigPage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MenuBar from './components/MenuBar'
+import PaginaEstatisticas from './pages/DashboardPage';
 
 const App = () => {
 
@@ -15,7 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/acervo" element={<PaginaInicial />} />
           <Route path="/bibliotecas" element={<PaginaBibliotecas />} />
-          <Route path="/configuracoes" element={<PaginaConfig />} />
+          <Route path="/estatisticas" element={<PaginaEstatisticas />} />
           <Route path="/" element={<PaginaInicial />} /> {/* rota padrão */}
         </Routes>
       </div>

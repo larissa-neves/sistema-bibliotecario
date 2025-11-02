@@ -5,7 +5,7 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { BookOpen, Library, FileText, Settings } from "lucide-react";
+import { BookOpen, Library, FileText, TrendingUp } from "lucide-react";
 
 
 const Acervo = () => {
@@ -40,16 +40,16 @@ const Relatorios = () => {
   );
 };
 
-const Configuracoes = () => {
+const Estatisticas = () => {
   return (
     <>
       <MenubarTrigger className="px-4 py-2 font-semibold text-gray-3 hover:bg-gray-100 transition-colors">
         <Link
-          to="/configuracoes"
+          to="/estatisticas"
           className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
-          <Settings className="w-4 h-4" />
-          Configurações
+          <TrendingUp className="w-4 h-4" />
+          Estatísticas
         </Link>
       </MenubarTrigger>
     </>
@@ -75,7 +75,7 @@ const Menu = () => {
       <MenubarMenu>
         <Acervo />
         <Relatorios />
-        <Configuracoes />
+        <Estatisticas />
       </MenubarMenu>
     </div>
   );

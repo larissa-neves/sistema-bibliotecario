@@ -1,6 +1,5 @@
 import React from "react";
-import FormNewBook from "@/components/Formulario";
-import Dashboard from "@/components/Dashboard";
+import FormNewBook from "@/components/FormularioLivros";
 
 export default function PaginaInicial() {
   return (
@@ -16,7 +15,6 @@ export default function PaginaInicial() {
         </div>
       </div>
 
-      <Dashboard />
       <FormNewBook />
     </div>
   );
